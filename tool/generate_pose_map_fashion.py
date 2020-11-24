@@ -8,8 +8,8 @@ MISSING_VALUE = -1
 root_dir = './data'
 root_fashion_dir = os.path.join(root_dir, 'deepfashion')
 img_dir = os.path.join(root_fashion_dir, 'fashion_resize')
-annotations_file = os.path.join(root_dir, 'fashion-resize-annotation-train.csv') #pose annotation path
-save_path = os.path.join(img_dir, 'trainK')
+annotations_file = os.path.join(root_dir, 'fashion-resize-annotation-test.csv') #pose annotation path
+save_path = os.path.join(img_dir, 'testK')
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
