@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from skimage.io import imread, imsave
 from skimage.transform import resize
 import os
@@ -6,13 +8,15 @@ import pandas as pd
 import json
 from PIL import Image
 
+
 def resize_dataset(folder, new_folder, new_size = (256, 176), crop_bord=40):
     if not os.path.exists(new_folder):
         os.makedirs(new_folder)
-    for name in os.listdir(folder):
-        old_name = os.path.join(folder, name)
-        new_name = os.path.join(new_folder, name)
-
+    for name in Path(folder).glob("**/*.jpg"):
+        old_name = str(name)
+        new_name = Path(new_folder) / name.relative_to(folder)
+        new_name.parent.mkdir(exist_ok=True, parents=True)
+        new_name = str(new_name)
 
         img = Image.open(old_name)
         w, h =img.size
@@ -23,6 +27,7 @@ def resize_dataset(folder, new_folder, new_size = (256, 176), crop_bord=40):
         img = img.resize([new_size[1],new_size[0]])
         img.save(new_name)
         print('resize %s succefully' % old_name)
+
 
 def resize_annotations(name, new_name, new_size = (256, 176), old_size = (256, 256), crop_bord=40):
     df = pd.read_csv(name, sep=':')
