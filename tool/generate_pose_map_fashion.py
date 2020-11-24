@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd 
 import json
@@ -39,6 +41,7 @@ def compute_pose(image_dir, annotations_file, savePath, sigma):
         name = row.name
         print(savePath, name)
         file_name = os.path.join(savePath, name + '.npy')
+        Path(file_name).parent.mkdir(exist_ok=True, parents=True)
         kp_array = load_pose_cords_from_strings(row.keypoints_y, row.keypoints_x)
         pose = cords_to_map(kp_array, image_size, sigma)
         np.save(file_name, pose)
